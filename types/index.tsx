@@ -33,3 +33,24 @@ export type SaveWebhookParams = {
   object: Record<string, any> // For triggers, this will contain the Moralis object, in our REST API format. 
   triggerName: string // name of function trigger
 }
+
+
+
+export type NFTData = {
+  token_address: string;
+  token_id: string;
+  contract_type: string;
+  token_uri?: string | undefined;
+  metadata?: string | undefined;
+  synced_at?: string | undefined;
+  amount?: string | undefined;
+  name: string;
+  symbol: string;
+}
+
+export type NFTMetadata = {
+  name: string
+  image: string
+  description: string
+}
+
