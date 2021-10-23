@@ -93,8 +93,7 @@ const GlobalStyle = createGlobalStyle<{ theme: typeof theme }>`
   }
 
   pre {
-    background-color: ${({ theme }): string => theme.colors.dark2};
-    padding: 1.2rem;
+    padding: 2rem;
     white-space: pre-wrap;
     max-height: 60rem;
     overflow-y: scroll;
