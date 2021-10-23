@@ -43,7 +43,7 @@ export const ConnectButton = () => {
   return (
     <Box>
       <Menu>
-        <MenuButton as={Button}>
+        <MenuButton as={Button} py={10}>
           {loading ? "Loading" : !user ? "Connect" : (
             <>
               <Jazzicon diameter={26} seed={jsNumberForAddress(user.attributes.accounts[0])} />
