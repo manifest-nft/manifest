@@ -16,6 +16,7 @@ import { NFTMetadata, PhysicalAddress } from 'types'
 import fetch from 'node-fetch'
 import Moralis from 'moralis/node'
 import { Design, DesignType, get721 } from 'utils/backendFns'
+import { fixIpfsUrl } from 'utils'
 const SP_API = "https://api.scalablepress.com/"
 
 
@@ -63,6 +64,8 @@ export default async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     })
   }
 
+  const artwork = fixIpfsUrl(metadata.image)
+
   console.log("creating design")
   const designResponse = await fetch(SP_API + "v2/design", {
     headers: {
@@ -74,7 +77,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<Response>) => {
       type: "dtg",
       sides: {
         front: {
-          artwork: metadata.image,
+          artwork,
           // colors: ['white'],
           dimensions: {
             width: 10
@@ -94,6 +97,12 @@ export default async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   })
   const designJson = await designResponse.json() as any
   console.log("done new design", designJson)
+
+  if (!designJson.designId) {
+    console.error("no design id returned")
+    return res.status(400)
+  }
+
 
   console.log("creating mockup")
   const mockupResponse = await fetch(SP_API + "v3/mockup", {
@@ -117,8 +126,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<Response>) => {
         type: "dtg",
         sides: {
           front: {
-            
-            artwork: metadata.image,
+            artwork,
             // colors: ['white'],
             dimensions: {
               width: 10
@@ -137,9 +145,10 @@ export default async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   const mockupJson = await mockupResponse.json() as any
   console.log("done new mockup", JSON.stringify(mockupJson))
 
-
-
-
+  if (!mockupJson.url) {
+    console.error("non url in the mockup")
+    return res.status(400)
+  }
 
   // -F "output[width]=1000" \
   // -F "output[height]=1000" \

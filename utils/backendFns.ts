@@ -7,10 +7,14 @@ Moralis.start({
 
 export const get721 = async (contract: string, token_id: string) => {
   try {
-    return Moralis.Web3API.token.getTokenIdMetadata({
+    const data = await Moralis.Web3API.token.getTokenIdMetadata({
       // @ts-ignore
       chain: process.env.MORALIS_CHAIN!, address: contract, token_id
     })
+
+    return data
+
+
   } catch (e) {
     console.error(e)
     return null

@@ -10,6 +10,7 @@ import { Button } from '@chakra-ui/react'
 import { NFTData, NFTMetadata } from 'types';
 import { DesignDisplay } from 'components/design';
 import useSWR from 'swr'
+import { fixIpfsUrl } from 'utils';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
@@ -53,7 +54,7 @@ function Page({ nft }: InferGetStaticPropsType<typeof getStaticProps>) {
 
   return <Layout>
     <h2>{metadata.name}</h2>
-    <img src={metadata.image} />
+    <img src={fixIpfsUrl(metadata.image)} />
 
     <Button onClick={() => setShowDesign(true)}>Create Manifest NFT</Button>
 
@@ -64,3 +65,5 @@ function Page({ nft }: InferGetStaticPropsType<typeof getStaticProps>) {
 }
 
 export default Page
+
+
