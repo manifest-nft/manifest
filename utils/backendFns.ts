@@ -6,9 +6,15 @@ Moralis.start({
 
 
 export const get721 = async (contract: string, token_id: string) => {
-  return Moralis.Web3API.token.getTokenIdMetadata({
-    chain: "polygon", address: contract, token_id
-  })
+  try {
+    return Moralis.Web3API.token.getTokenIdMetadata({
+      // @ts-ignore
+      chain: process.env.MORALIS_CHAIN!, address: contract, token_id
+    })
+  } catch (e) {
+    console.error(e)
+    return null
+  }
 }
 
 export const Design = Moralis.Object.extend("Design")

@@ -41,6 +41,10 @@ export default async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   const params = req.query as RequestParams
 
   const nft = await get721(params.address, params.tokenId)
+  if (!nft) {
+    return res.status(404).json({})
+  }
+
   const metadata = JSON.parse(nft.metadata!) as NFTMetadata
 
   const query = new Moralis.Query(Design)

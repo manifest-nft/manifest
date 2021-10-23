@@ -27,7 +27,7 @@ export const getStaticProps: GetStaticProps<{ nft: NFTData }> = async (context) 
 
   console.log(nft)
 
-  if (!nft.metadata) {
+  if (!nft?.metadata) {
     return {
       notFound: true
     }
