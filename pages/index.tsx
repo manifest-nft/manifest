@@ -3,6 +3,7 @@ import { Layout } from 'components/sections/layout';
 import { styled } from 'theme';
 import { Panel } from 'components/ui';
 import { useMoralis } from 'react-moralis';
+import Profile from 'components/user/profile';
 
 const Grid = styled.section`
   display: grid;
@@ -37,19 +38,20 @@ const Card = styled.a`
 const App = () => {
   const { authenticate, isAuthenticated, user, logout } = useMoralis();
 
-  if (!isAuthenticated) {
-    return (
-      <div>
-        <button onClick={() => authenticate({  })}>Authenticate</button>
-      </div>
-    );
-  }
+  // if (!isAuthenticated) {
+  //   return (
+  //     <div>
+  //       <button onClick={() => authenticate({  })}>Authenticate</button>
+  //     </div>
+  //   );
+  // }
 
   return (
-    <div>
-      <h1>Welcome {user ? user.get("username") : "anon"}</h1>
-      <button onClick={() => logout()}>Logout</button>
-    </div>
+    <Layout>
+      <h1>Welcome {user ? user.get("username") : "anon  "}</h1>
+
+      <Profile />
+    </Layout>
   );
 };
 
