@@ -4,18 +4,14 @@ It is written primarily in Typescript and uses [styled components](https://style
 
 ## Getting started
 
-Using the [github client](https://cli.github.com/), in your command line run:
-```
-gh repo create <my-web3-project> --template="https://github.com/ccoyotedev/nextjs-moralis.git"
-cd <my-web3-project>
-git pull origin main
-yarn install
-```
+Use `npm install --legacy-peer-deps`
 
-To run the app, in your terminal run:
-```
-yarn dev
-```
+then `npm start`
+
+
+--------
+
+
 
 To connect to Moralis you will need to create a new Moralis project by following the [Moralis documentation]("https://docs.moralis.io/getting-started/quick-start").
 
