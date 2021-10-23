@@ -26,7 +26,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } = params;
 
     const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata({
-        chain: 'rinkeby',
+        // @ts-ignore
+        chain: process.env.MORALIS_CHAIN!,
         address: ogAddress,
         token_id: ogTokenId,
     });

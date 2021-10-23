@@ -1,19 +1,14 @@
 import React from 'react'
-import { ThemeProvider } from 'styled-components'
-import GlobalStyle from 'theme/globalStyles'
-import { Modal } from 'components/ui'
 import Web3Provider from "context/Web3Context"
-import Reset from 'theme/reset'
-import { theme } from 'theme'
+import { ChakraProvider } from '@chakra-ui/react'
+import theme from '../theme'
 import { MoralisProvider } from "react-moralis";
 
 const App = ({ Component, pageProps }) => {
   if (!process.env.MORALIS_APPLICATION_ID || !process.env.MORALIS_SERVER_ID) {
     return (
-      <ThemeProvider theme={theme}>
-        <Reset />
-        <GlobalStyle />
-        <Modal>
+
+      <ChakraProvider resetCSS theme={theme}>
           <h3>Moralis App_ID and Server_ID has not been set:</h3>
           <p>
             Follow the steps on the <a href="https://docs.moralis.io/getting-started/quick-start" target="_blank">Moralis documentation</a> to create a new Moralis project.
@@ -25,18 +20,15 @@ const App = ({ Component, pageProps }) => {
               MORALIS_SERVER_ID='[SERVER_ID]'
             </code>
           </pre>
-        </Modal>
-      </ThemeProvider>
+      </ChakraProvider>
     )
   }
   return (
     <MoralisProvider appId={process.env.MORALIS_APPLICATION_ID || ""} serverUrl={process.env.MORALIS_SERVER_ID || ""}>
       <Web3Provider>
-        <ThemeProvider theme={theme}>
-          <Reset />
-          <GlobalStyle />
+        <ChakraProvider resetCSS theme={theme}>
           <Component {...pageProps} />
-        </ThemeProvider>
+        </ChakraProvider>
       </Web3Provider>
     </MoralisProvider>
   );

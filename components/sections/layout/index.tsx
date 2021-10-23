@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Footer, Header } from 'components/sections'
-import { Container } from 'components/layout'
 import { updateNetworkId, useWeb3 } from 'context/Web3Context'
 import { useMoralis } from 'react-moralis'
 import { ErrorModal } from 'components/ui'
+import { Container } from "@chakra-ui/react"
 
 interface Props {
   children: React.ReactNode;

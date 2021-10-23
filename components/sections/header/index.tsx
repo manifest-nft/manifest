@@ -1,12 +1,12 @@
 import React from 'react';
-import * as Styled from "./styles";
 import { ConnectButton } from 'components/ui';
-
+import { Box, Text } from "@chakra-ui/react"
 
 export const Header = () => {
   return (
-    <Styled.Wrapper>
+    <Box w="100%" py={4} backgroundColor="blue.100" d="flex" px={10}>
+      <Box flex="1"><Text fontSize={50} fontWeight="extrabold">Manifest Art</Text></Box>
       <ConnectButton />
-    </Styled.Wrapper>
+    </Box>
   )
 }
