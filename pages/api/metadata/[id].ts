@@ -22,9 +22,9 @@ export default async (req: NextApiRequest, res: NextApiResponse<UriData>) => {
             ogC: first.get('ogC'),
             ogT: first.get('ogT'),
             ogUri: first.get('ogUri'),
-            n: first.get('n'),
-            d: first.get('d'),
-            i: first.get('i'),
+            name: first.get('name'),
+            description: first.get('description'),
+            image: first.get('image'),
             edition: first.get('edition'),
         };
         res.status(200).json(returnObj);

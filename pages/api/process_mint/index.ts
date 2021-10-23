@@ -1,13 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { SaveWebhookParams } from 'types'
-import { getNftName, getNftDescription } from './utils';
+import { getNftName, getNftDescription } from '../utils';
 import Moralis from 'moralis/node';
 
-export default async (req: NextApiRequest, res: NextApiResponse<Response>) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
     Moralis.start({
         appId: process.env.MORALIS_APPLICATION_ID!,
-        serverUrl: process.env.MORALIS_SERVER_ID!
-        
+        serverUrl: process.env.MORALIS_SERVER_ID!,
+        masterKey: process.env.MORALIS_MASTER_KEY!,
     });
 
     if (req.method !== 'POST') { 
@@ -16,17 +16,20 @@ export default async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     const params: SaveWebhookParams = req.body;
 
     const {
-        ogAddress,
-        ogTokenId,
-        newTokenId,
-    } = params.object; // this is the object stored in db from mint event
+        // @ts-ignore
+        NFTContract: ogAddress,
+        // @ts-ignore
+        tokenId: ogTokenId,
+        // @ts-ignore
+        lastManifestId: newTokenId,
+    // } = params.object; // this is the object stored in db from mint event
+    } = params;
 
-    const options = { 
+    const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata({
+        chain: 'rinkeby',
         address: ogAddress,
         token_id: ogTokenId,
-    };
-
-    const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(options);
+    });
 
     const {
         metadata,
@@ -43,16 +46,22 @@ export default async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     const query = new Moralis.Query('uriData');
     const pipeline = [
         { match: { ogC: ogAddress, ogT: ogTokenId } },
-        { group: { objectId: undefined, max: { $max: '$edition' } } },
+        { group: { objectId: null, max: { $max: '$edition' } } },
     ];
 
     let maxEdition;
+    //@ts-ignore
     await query.aggregate(pipeline)
         .then(function(results) {
-            maxEdition = results[0].max;
+            if (results.length > 0) {
+                maxEdition = results[0].max;
+            } else {
+                maxEdition = 0;
+            }
         })
         .catch(function(error) {
             // There was an error.
+            maxEdition = 0;
         });
 
     const edition = maxEdition + 1 || 1; 
@@ -69,11 +78,11 @@ export default async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     uriData.set('ogC', ogAddress);
     uriData.set('ogT', ogTokenId);
     uriData.set('ogUri', ogTokenUri);
-    uriData.set('n', name);
-    uriData.set('d', description);
-    uriData.set('i', imageData);
+    uriData.set('name', name);
+    uriData.set('description', description);
+    uriData.set('image', imageData);
     uriData.set('edition', edition);
 
     await uriData.save();
-    res.status(200);
+    res.status(200).json(uriData.attributes);
 }

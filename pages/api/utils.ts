@@ -2,7 +2,7 @@ export const getNftName = (ogName: string, edition: number) => {
     // generate a name from:
     //    the old item name
     //    mint edition
-    const name = `"${ogName}" number ${edition}`;
+    const name = `Manifest: "${ogName}" number ${edition}`;
     return name;
 };
 

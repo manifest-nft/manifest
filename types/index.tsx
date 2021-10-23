@@ -15,9 +15,9 @@ export type PhysicalAddress = {
 
 export type UriData = {
   tokenId: string // ID of token in manifest contract
-  n: string // name of the NFT
-  d: string // description of NFT
-  i: string // image url
+  name: string // name of the NFT
+  description: string // description of NFT
+  image: string // image url
   ogC: string // original contract address
   ogT: string // original token ID
   ogUri: string // original URI link
