@@ -14,33 +14,46 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { PhysicalAddress } from 'types'
 import fetch from 'node-fetch'
+import { Moralis } from 'moralis'
 const QUOTE = "https://api.scalablepress.com/v2/quote"
 
 
 type RequestParams = {
+  erc721Address: string
   address: PhysicalAddress
+  tokenId: number
 }
 
 
 type Response = {
-  
+  // a: number
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   if (!process.env.SP_KEY) throw "no scalable press key"
 
-  const quote = await fetch(QUOTE, {
-    headers: {
-      'Authorization': 'Basic ' + Buffer.from(":" + process.env.SP_KEY).toString('base64'),
-      'Content-Type': 'application/json'
-    },
-    method: 'post',
-    body: JSON.stringify({
-      
-    }),
+  const params = req.body as RequestParams
+
+  const a = await Moralis.Web3API.token.getNFTMetadata({
+    chain: "polygon", address: "0x7227e371540cf7b8e512544ba6871472031f3335"
   })
+
+  console.log(a)
+
+  // const quote = await fetch(QUOTE, {
+  //   headers: {
+  //     'Authorization': 'Basic ' + Buffer.from(":" + process.env.SP_KEY).toString('base64'),
+  //     'Content-Type': 'application/json'
+  //   },
+  //   method: 'post',
+  //   body: JSON.stringify({
+  //     products: [
+  //       { id: "gildan-sweatshirt-crew", color: "white" }
+  //     ]
+  //   }),
+  // })
   console.log(req.body)
 
 
-  res.status(200).json({ name: 'John Doe' })
+  res.status(200).json({  })
 }
