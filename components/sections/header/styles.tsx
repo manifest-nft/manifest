@@ -3,7 +3,7 @@ import { styled } from 'theme';
 export const Wrapper = styled.header`
   position: relative;
   width: 100%;
-  background-color: ${({theme}) => theme.colors.dark0};
+  // background-color: ${({theme}) => theme.colors.dark0};
   z-index: 1;
   display: flex;
   flex-direction: row;
