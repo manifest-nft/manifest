@@ -33,7 +33,7 @@ export const DesignDisplay = ({ metadata, nft }: { metadata: NFTMetadata, nft: N
 
   const { data: txData, error: txError, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
     abi: ABI,
-    contractAddress: "0x8e4B5c508207b15b01A21E6dbcde89Ba516c1c5A",
+    contractAddress: "0xB699a367d0aC5822760E17FA3adFFf90E459C526",
     functionName: "submitManifest721",
     params: {
       "NFTContract": nft.token_address,
