@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<UriData>) => {
         
     });
 
-    const { query: { id } } = req;
+    const { query: { id, contractAddress } } = req;
 
     const query = new Moralis.Query('uriData');
     query.equalTo('tokenId', id);

@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { SaveWebhookParams } from 'types'
 import { getNftName, getNftDescription } from '../utils';
+import { Design } from 'utils/backendFns'
 import Moralis from 'moralis/node';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -22,14 +23,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         tokenId: ogTokenId,
         // @ts-ignore
         lastManifestId: newTokenId,
-    // } = params.object; // this is the object stored in db from mint event
-    } = params;
+    } = params.object; // this is the object stored in db from mint event
+    // } = params;
 
     const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata({
         // @ts-ignore
         chain: process.env.MORALIS_CHAIN!,
         address: ogAddress,
         token_id: ogTokenId,
+        // address: '0x6107f606d09c6d59c5efbb1e86cc90bd71b78164',
+        // token_id: '40',
     });
 
     const {
@@ -73,7 +76,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const description = getNftDescription(ogCollectionName, ogTokenName, ogTokenId, edition);
 
     const uriData = new Moralis.Object('uriData');
-    const imageData = '';
+
+    const designQuery = new Moralis.Query(Design);
+    designQuery.equalTo("contractAddress", ogAddress);
+    designQuery.equalTo("tokenId", ogTokenId);
+    const results = await designQuery.find()
+    const imageData = results[0]?.get("spMockupUrl");
 
     uriData.set('tokenId', newTokenId);
     uriData.set('ogC', ogAddress);
