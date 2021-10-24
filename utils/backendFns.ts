@@ -17,7 +17,7 @@ export const get721 = async (contract: string, token_id: string) => {
 
   } catch (e) {
     console.error(e)
-    return null
+    return null 
   }
 }
 
